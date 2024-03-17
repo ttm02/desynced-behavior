@@ -25,6 +25,36 @@ export function factory_block_worker(produced_item: Value) {
     }
     disconnect();// the factory block manager will take care of the logistics
 
+    lock_items_for_production(produced_item);
+
+    // work: push production result to manager
+    while(true){
+                orderTransfer(manager_entity, combineRegister(getMaxStack(produced_item), produced_item));// push to manager
+                }
+}
+
+
+function get_factory_block_manager_and_item(manager_entity: Value, produced_item: Value) {
+    // Wait until a recipe is set on the factory manager
+    // the factory block manager is the building nearby that emits a signal. Raises an error if more than one is found
+    while (compareItem(produced_item, null)) {
+        let local_produced_item: Value;
+        for (const building of entitiesInRange(1, "v_building")) {
+            local_produced_item = readSignal(building)
+            if (!compareItem(local_produced_item, null)) {
+                manager_entity = building;
+                if (!compareItem(produced_item, null)) {
+                    notify("ERROR: Multiple Factory Managers Found");
+                }
+                produced_item = local_produced_item;
+            }
+        }
+    }
+    return;
+}
+
+
+function lock_items_for_production(produced_item){
     let num_ingredients: number;
     num_ingredients = 1; // 1 for the production result
     for (const ingredient of recipieIngredients(produced_item)) { num_ingredients = num_ingredients + 1; }
@@ -52,33 +82,7 @@ export function factory_block_worker(produced_item: Value) {
         lockSlots(produced_item, current_slot);
         current_slot = current_slot + 1
     }
-
-    // the rest (aka logistics) is handled by the factory block manager
-    exit();
 }
-
-
-function get_factory_block_manager_and_item(manager_entity: Value, produced_item: Value) {
-    // Wait until a recipe is set on the factory manager
-    // the factory block manager is the building nearby that emits a signal. Raises an error if more than one is found
-    while (compareItem(produced_item, null)) {
-        let local_produced_item: Value;
-        for (const building of entitiesInRange(1, "v_building")) {
-            local_produced_item = readSignal(building)
-            if (!compareItem(local_produced_item, null)) {
-                manager_entity = building;
-                if (!compareItem(produced_item, null)) {
-                    notify("ERROR: Multiple Factory Managers Found");
-                }
-                produced_item = local_produced_item;
-            }
-        }
-    }
-    return;
-}
-
-
-function 
 
 function get_producing_component(produced_item: Value,component:Value) {
 

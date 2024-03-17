@@ -31,6 +31,7 @@ export function request_ingredients(produced_item: Value) {
     while (num_slots == self.countStorageSlots()) {
         for (const ingredient of recipieIngredients(produced_item)) {
             requestItem(combineRegister(getMaxStack(ingredient) * slots_per_ingredient, ingredient));
+            orderTransfer(manager_entity, combineRegister(getMaxStack(ingredient), ingredient));// push to manager
         }
     }
     notify("ERROR: number of slots changed");
