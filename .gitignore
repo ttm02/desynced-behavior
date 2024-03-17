@@ -1,0 +1,4 @@
+# generated files
+*.ts.asm
+*.ts.asm.txt
+*.ts.asm.json
