@@ -8,5 +8,6 @@ export function reserve_storage(item: Value) {
             item = readSignal(building)
         }
     }
-    lockSlots(item, null)
+    lockSlots(item, null);
+    exit();
 }
