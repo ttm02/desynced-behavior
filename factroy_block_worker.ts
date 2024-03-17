@@ -25,10 +25,15 @@ export function factory_block_worker(produced_item: Value) {
     }
     disconnect();// the factory block manager will take care of the logistics
 
+    // set up production    
+    setCompReg(component,combineRegister(1,produced_item),1);
+    setCompReg(component,combineRegister(1,produced_item),2);
+
     lock_items_for_production(produced_item);
 
     // work: push production result to manager
     while(true){
+		
                 orderTransfer(manager_entity, combineRegister(getMaxStack(produced_item), produced_item));// push to manager
                 }
 }

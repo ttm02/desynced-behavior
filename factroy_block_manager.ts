@@ -44,9 +44,9 @@ export function factory_block_manager(produced_item: Value) {
     while (num_slots == self.countStorageSlots()) {
     for (const building of entitiesInRange(1, "v_building")) {
         const [their_x_pos,their_y_pos] = separateCoordinate(getLocation(building))
-        // storage has lower y position than the manager (>= is a worker)
+        // storage has larger y position than the manager (>= is a worker)
         for (const ingredient of recipieIngredients(produced_item)) {
-             if(my_y_pos>= their_y_pos){
+             if(my_y_pos<= their_	y_pos){
                 // worker 
                 orderTransfer(building, combineRegister(getMaxStack(ingredient), ingredient))
              }
@@ -54,7 +54,7 @@ export function factory_block_manager(produced_item: Value) {
                 //storage
              }
         }
-        if(my_y_pos>= their_y_pos){
+        if(my_y_pos<= their_y_pos){
                 // worker 
              }
              else{
