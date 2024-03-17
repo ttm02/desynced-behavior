@@ -46,7 +46,7 @@ export function factory_block_manager(produced_item: Value) {
         const [their_x_pos,their_y_pos] = separateCoordinate(getLocation(building))
         // storage has larger y position than the manager (>= is a worker)
         for (const ingredient of recipieIngredients(produced_item)) {
-             if(my_y_pos<= their_	y_pos){
+             if(my_y_pos<= their_y_pos){
                 // worker 
                 orderTransfer(building, combineRegister(getMaxStack(ingredient), ingredient))
              }
